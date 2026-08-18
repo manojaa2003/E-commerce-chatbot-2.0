@@ -40,10 +40,6 @@ def query_rewriter(state):
     current_query = str(messages[-1].content).strip()
     q = current_query.lower().strip()
 
-    # =========================================================
-    # 1. NORMALIZE COMMON TYPOS
-    # =========================================================
-
     typo_map = {
         "retrun": "return",
         "retun": "return",
@@ -70,12 +66,6 @@ def query_rewriter(state):
 
     for wrong, correct in typo_map.items():
         normalized_q = normalized_q.replace(wrong, correct)
-
-    # =========================================================
-    # 2. SIMPLE CONVERSATIONAL MESSAGES
-    #
-    # These don't need an LLM.
-    # =========================================================
 
     simple_messages = {
         "hi",
@@ -131,25 +121,7 @@ def query_rewriter(state):
             "rewritten_query": current_query
         }
 
-    # =========================================================
-    # 3. GENERAL / FAQ QUESTIONS
-    #
-    # These should NOT inherit product context.
-    #
-    # Example:
-    # Puma shoes
-    # ↓
-    # What is the return policy?
-    #
-    # Must remain:
-    # What is the return policy?
-    # =========================================================
-
     faq_patterns = [
-
-        # -----------------------------------------------------
-        # Chatbot
-        # -----------------------------------------------------
 
         "what is your name",
         "what's your name",
@@ -161,9 +133,7 @@ def query_rewriter(state):
         "who made you",
         "tell me about yourself",
 
-        # -----------------------------------------------------
-        # Return / Refund
-        # -----------------------------------------------------
+
 
         "return policy",
         "refund policy",
@@ -176,13 +146,6 @@ def query_rewriter(state):
         "return a product",
         "how do i return",
 
-        # -----------------------------------------------------
-        # Payment INFORMATION
-        #
-        # These are questions about available methods,
-        # NOT requests to make a payment.
-        # -----------------------------------------------------
-
         "payment methods",
         "what payment methods",
         "how can i pay",
@@ -190,20 +153,12 @@ def query_rewriter(state):
         "ways to pay",
         "what payment options",
 
-        # -----------------------------------------------------
-        # COD INFORMATION
-        # -----------------------------------------------------
-
         "cash on delivery",
         "cash on delivery available",
         "do you have cash on delivery",
         "is cash on delivery available",
         "cod available",
         "is cod available",
-
-        # -----------------------------------------------------
-        # Shipping / Delivery INFORMATION
-        # -----------------------------------------------------
 
         "shipping policy",
         "delivery policy",
@@ -216,7 +171,6 @@ def query_rewriter(state):
 
     if any(pattern in normalized_q for pattern in faq_patterns):
 
-        # Correct obvious typo while preserving the user's intent.
         corrected_query = current_query
 
         for wrong, correct in typo_map.items():
@@ -235,28 +189,7 @@ def query_rewriter(state):
             "rewritten_query": corrected_query
         }
 
-    # =========================================================
-    # 4. UNSUPPORTED ACTIONS
-    #
-    # The chatbot cannot perform these actions.
-    #
-    # IMPORTANT:
-    # Do NOT inherit product context.
-    #
-    # Example:
-    # Puma shoes
-    # ↓
-    # Can you make payment for this?
-    #
-    # Return:
-    # Can you make payment for this?
-    # =========================================================
-
     unsupported_patterns = [
-
-        # -----------------------------------------------------
-        # Payment ACTIONS
-        # -----------------------------------------------------
 
         "make payment",
         "make a payment",
@@ -270,10 +203,6 @@ def query_rewriter(state):
         "make the payment",
         "do the payment",
 
-        # -----------------------------------------------------
-        # Purchase / Order ACTIONS
-        # -----------------------------------------------------
-
         "buy this for me",
         "buy it for me",
         "purchase this for me",
@@ -282,10 +211,6 @@ def query_rewriter(state):
         "place order",
         "place this order",
         "order this for me",
-
-        # -----------------------------------------------------
-        # Order Tracking
-        # -----------------------------------------------------
 
         "track my order",
         "track order",
@@ -299,19 +224,11 @@ def query_rewriter(state):
         "where is my package",
         "where's my package",
 
-        # -----------------------------------------------------
-        # Order Cancellation
-        # -----------------------------------------------------
-
         "cancel my order",
         "cancel order",
         "cancel this order",
         "cancel the order",
         "how do i cancel my order",
-
-        # -----------------------------------------------------
-        # Order Modification
-        # -----------------------------------------------------
 
         "change my order",
         "modify my order",
@@ -341,13 +258,7 @@ def query_rewriter(state):
         return {
             "rewritten_query": corrected_query
         }
-
-    # =========================================================
-    # 5. NO PREVIOUS CONTEXT
-    #
-    # First user message doesn't need rewriting.
-    # =========================================================
-
+    
     if len(messages) == 1:
 
         print("\n========== QUERY REWRITER ==========")
@@ -359,15 +270,6 @@ def query_rewriter(state):
         return {
             "rewritten_query": current_query
         }
-
-    # =========================================================
-    # 6. PREVIOUS USER MESSAGES ONLY
-    #
-    # NEVER use previous AI messages.
-    #
-    # AI responses may contain hallucinated products,
-    # prices, brands, etc.
-    # =========================================================
 
     previous_user_messages = []
 
@@ -390,15 +292,6 @@ def query_rewriter(state):
         return {
             "rewritten_query": current_query
         }
-
-    # =========================================================
-    # 7. DIRECT PRODUCT REQUEST
-    #
-    # Examples:
-    # "just show me"
-    # "give me the products"
-    # "show them"
-    # =========================================================
 
     direct_product_phrases = [
 
@@ -432,20 +325,10 @@ def query_rewriter(state):
         for phrase in direct_product_phrases
     )
 
-    # =========================================================
-    # 8. PREVIOUS USER CONTEXT
-    # =========================================================
-
     context = "\n".join(
         f"U: {x}"
         for x in previous_user_messages
     )
-
-    # =========================================================
-    # 9. SMALL LLM PROMPT
-    #
-    # Keep this short because this node may run frequently.
-    # =========================================================
 
     system_prompt = """
 Rewrite an e-commerce user query using previous USER context.
@@ -492,11 +375,6 @@ Puma shoes
 + watches
 → Find watches
 """
-
-    # =========================================================
-    # 10. INSTRUCTION
-    # =========================================================
-
     if is_direct_product:
 
         instruction = """
@@ -510,10 +388,6 @@ Return the complete product search query.
 Rewrite the current message using relevant product context.
 """
 
-    # =========================================================
-    # 11. HUMAN PROMPT
-    # =========================================================
-
     human_prompt = f"""
 Previous USER messages:
 {context}
@@ -523,11 +397,6 @@ Current:
 
 {instruction}
 """
-
-    # =========================================================
-    # 12. LLM CALL
-    # =========================================================
-
     response = llm.invoke([
         SystemMessage(content=system_prompt),
         HumanMessage(content=human_prompt)
@@ -542,11 +411,6 @@ Current:
         .strip("'")
         .strip()
     )
-
-    # =========================================================
-    # 13. DEBUG
-    # =========================================================
-
     print("\n========== QUERY REWRITER ==========")
 
     print("Previous user context:")
@@ -561,9 +425,6 @@ Current:
     return {
         "rewritten_query": rewritten_query
     }
-# --------------------------------------------------
-# ROUTER DECISION
-# --------------------------------------------------
 
 def decision_node(state):
 
@@ -582,11 +443,6 @@ def decision_node(state):
         return "fall_back_node"
 
     return END
-
-
-# --------------------------------------------------
-# NODES
-# --------------------------------------------------
 
 graph.add_node(
     "query_rewriter",
@@ -617,11 +473,6 @@ graph.add_node(
     "fall_back_node",
     fallback_chain
 )
-
-
-# --------------------------------------------------
-# GRAPH FLOW
-# --------------------------------------------------
 
 graph.set_entry_point("query_rewriter")
 
@@ -654,6 +505,5 @@ graph.add_edge(
     "fall_back_node",
     END
 )
-
 
 app = graph.compile()
