@@ -7,17 +7,17 @@ from dotenv import load_dotenv
 from groq import Groq
 from langchain_core.messages import AIMessage, HumanMessage
 
-load_dotenv()
+from backend_routes.config import settings
 
-groq_client = Groq()
+groq_client = Groq(api_key=settings.groq_api_key)
 
 def get_connection():
     return psycopg2.connect(
-        host=os.getenv("POSTGRES_HOST"),
-        port=os.getenv("POSTGRES_PORT"),
-        dbname=os.getenv("POSTGRES_DB"),
-        user=os.getenv("POSTGRES_USER"),
-        password=os.getenv("POSTGRES_PASSWORD"),
+        host=settings.database_hostname,
+        port=settings.database_port,
+        dbname=settings.database_name,
+        user=settings.database_username,
+        password=settings.database_password,
     )
 
 def run_query(question):
