@@ -6,10 +6,11 @@ import psycopg2
 from dotenv import load_dotenv
 from groq import Groq
 from langchain_core.messages import AIMessage, HumanMessage
-
 from backend_routes.config import settings
 
-groq_client = Groq(api_key=settings.groq_api_key)
+load_dotenv()
+
+groq_client = Groq()
 
 def get_connection():
     return psycopg2.connect(
@@ -108,7 +109,7 @@ def final_answer_generation(question, data):
 
 
 def sql_chain(state):
-    question = state["messages"][-1].content
+    question = state["rewritten_query"]
     sql_query = generate_query(question)
     pattern = "<SQL>(.*?)</SQL>"
     matches = re.findall(pattern, sql_query, re.DOTALL)

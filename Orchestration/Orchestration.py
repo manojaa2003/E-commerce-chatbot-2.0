@@ -115,13 +115,15 @@ def query_rewriter(state):
         print("Type     : Conversation")
         print("Original :", current_query)
         print("Rewritten:", current_query)
-        print("====================================\n")
+        print("\n")
 
         return {
             "rewritten_query": current_query
         }
 
     faq_patterns = [
+
+        # Chatbot
 
         "what is your name",
         "what's your name",
@@ -133,7 +135,7 @@ def query_rewriter(state):
         "who made you",
         "tell me about yourself",
 
-
+        # Return / Refund
 
         "return policy",
         "refund policy",
@@ -153,12 +155,16 @@ def query_rewriter(state):
         "ways to pay",
         "what payment options",
 
+        # COD INFORMATION
+
         "cash on delivery",
         "cash on delivery available",
         "do you have cash on delivery",
         "is cash on delivery available",
         "cod available",
         "is cod available",
+
+        # Shipping / Delivery INFORMATION
 
         "shipping policy",
         "delivery policy",
@@ -171,6 +177,7 @@ def query_rewriter(state):
 
     if any(pattern in normalized_q for pattern in faq_patterns):
 
+        # Correct obvious typo while preserving the user's intent.
         corrected_query = current_query
 
         for wrong, correct in typo_map.items():
@@ -191,6 +198,8 @@ def query_rewriter(state):
 
     unsupported_patterns = [
 
+        # Payment ACTIONS
+
         "make payment",
         "make a payment",
         "pay for me",
@@ -203,6 +212,8 @@ def query_rewriter(state):
         "make the payment",
         "do the payment",
 
+        # Purchase / Order ACTIONS
+
         "buy this for me",
         "buy it for me",
         "purchase this for me",
@@ -211,6 +222,8 @@ def query_rewriter(state):
         "place order",
         "place this order",
         "order this for me",
+
+        # Order Tracking
 
         "track my order",
         "track order",
@@ -224,11 +237,15 @@ def query_rewriter(state):
         "where is my package",
         "where's my package",
 
+        # Order Cancellation
+
         "cancel my order",
         "cancel order",
         "cancel this order",
         "cancel the order",
         "how do i cancel my order",
+
+        # Order Modification
 
         "change my order",
         "modify my order",
@@ -258,7 +275,7 @@ def query_rewriter(state):
         return {
             "rewritten_query": corrected_query
         }
-    
+
     if len(messages) == 1:
 
         print("\n========== QUERY REWRITER ==========")
@@ -284,7 +301,7 @@ def query_rewriter(state):
                     text[:200]
                 )
 
-    # Keep only recent context
+    # only recent context
     previous_user_messages = previous_user_messages[-5:]
 
     if not previous_user_messages:
@@ -375,6 +392,7 @@ Puma shoes
 + watches
 → Find watches
 """
+
     if is_direct_product:
 
         instruction = """
@@ -411,6 +429,7 @@ Current:
         .strip("'")
         .strip()
     )
+
     print("\n========== QUERY REWRITER ==========")
 
     print("Previous user context:")
@@ -420,7 +439,7 @@ Current:
     print("Original :", current_query)
     print("Rewritten:", rewritten_query)
 
-    print("====================================\n")
+    print("\n")
 
     return {
         "rewritten_query": rewritten_query
@@ -444,66 +463,21 @@ def decision_node(state):
 
     return END
 
-graph.add_node(
-    "query_rewriter",
-    query_rewriter
-)
 
-graph.add_node(
-    "router",
-    get_router
-)
-
-graph.add_node(
-    "general_qa_node",
-    general_qa_chain
-)
-
-graph.add_node(
-    "faq_node",
-    faq_chain
-)
-
-graph.add_node(
-    "sql_node",
-    sql_chain
-)
-
-graph.add_node(
-    "fall_back_node",
-    fallback_chain
-)
+graph.add_node("query_rewriter",query_rewriter)
+graph.add_node("router",get_router)
+graph.add_node("general_qa_node",general_qa_chain)
+graph.add_node("faq_node",faq_chain)
+graph.add_node("sql_node",sql_chain)
+graph.add_node("fall_back_node",fallback_chain)
 
 graph.set_entry_point("query_rewriter")
 
-graph.add_edge(
-    "query_rewriter",
-    "router"
-)
-
-graph.add_conditional_edges(
-    "router",
-    decision_node
-)
-
-graph.add_edge(
-    "general_qa_node",
-    END
-)
-
-graph.add_edge(
-    "faq_node",
-    END
-)
-
-graph.add_edge(
-    "sql_node",
-    END
-)
-
-graph.add_edge(
-    "fall_back_node",
-    END
-)
+graph.add_edge("query_rewriter","router")
+graph.add_conditional_edges("router",decision_node)
+graph.add_edge("general_qa_node",END)
+graph.add_edge("faq_node",END)
+graph.add_edge("sql_node",END)
+graph.add_edge("fall_back_node",END)
 
 app = graph.compile()

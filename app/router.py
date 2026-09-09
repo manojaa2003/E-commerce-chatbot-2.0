@@ -101,10 +101,32 @@ faq = Route(
 
 sql = Route(
     name="sql",
-    description="Queries for searching, filtering, recommending and comparing products from the catalog.",
-    utterances=[
 
-        # Search
+    description="""
+    Product catalog queries.
+
+    Route here when the user wants to search, find, show, browse,
+    recommend, filter, sort, compare, or check availability of
+    products from the catalog.
+
+    Product queries may contain any combination of:
+    product category, gender, brand, price, budget, color,
+    material, size, rating, style, type, features,
+    popularity or sorting criteria.
+
+    Examples:
+    Find white cotton girls kurta.
+    Find men's Puma shoes under 10000.
+    Find blue cotton shirts.
+    Show Nike shoes under 3000.
+    Find the cheapest laptop.
+    Find highly rated watches.
+    Compare iPhone and Samsung phones.
+    """,
+
+    utterances=[
+        # GENERIC PRODUCT SEARCH
+
         "show products",
         "find products",
         "search products",
@@ -113,10 +135,24 @@ sql = Route(
         "available products",
         "product catalog",
 
-        # Category
+        "find me a product",
+        "help me find a product",
+        "i am looking for a product",
+        "i need a product",
+        "show me something",
+        "show me some products",
+
+        # CATEGORY
+
         "show shoes",
+        "show shirts",
+        "show kurtas",
+        "show dresses",
+        "show pants",
+        "show jeans",
         "show laptops",
         "show mobiles",
+        "show phones",
         "show headphones",
         "show watches",
         "show clothing",
@@ -124,32 +160,222 @@ sql = Route(
         "show speakers",
         "show bags",
 
-        # Brand
+        "find shoes",
+        "find shirts",
+        "find kurtas",
+        "find dresses",
+        "find pants",
+        "find jeans",
+        "find laptops",
+        "find phones",
+        "find watches",
+        "find bags",
+
+        # GENDER
+
+        "men shoes",
+        "men's shoes",
+        "mens shoes",
+        "male shoes",
+
+        "women shoes",
+        "women's shoes",
+        "womens shoes",
+        "female shoes",
+
+        "boys shoes",
+        "boys clothing",
+
+        "girls shoes",
+        "girls clothing",
+        "girls kurtas",
+
+        "men shirts",
+        "men's shirts",
+        "women shirts",
+        "women's shirts",
+
+        "male clothing",
+        "female clothing",
+
+        # BRAND
         "nike shoes",
         "adidas shoes",
+        "puma shoes",
+        "puma products",
         "apple products",
+        "apple phones",
+        "iphone",
+        "iphones",
         "samsung phones",
         "boat headphones",
         "sony headphones",
-        "puma products",
+        "levi's shirts",
+        "levis shirts",
 
-        # Budget
+        # BRAND + CATEGORY + PRICE
+
+        "puma shoes under 2000",
+        "puma shoes under 5000",
+        "puma shoes under 10000",
+
+        "nike shoes under 3000",
+        "nike shoes under 5000",
+
+        "levis shirts under 2000",
+        "levi's shirts under 3000",
+
+        "apple phones under 50000",
+        "iphone under 100000",
+
+        "samsung phones under 30000",
+
+        # PRICE
+
         "products under 1000",
         "products under 2000",
+        "products under 3000",
+        "products under 5000",
+        "products under 10000",
+
+        "products below 1000",
+        "products below 2000",
         "products below 5000",
+        "products below 10000",
+
         "budget products",
         "cheap products",
         "affordable products",
         "premium products",
 
-        # Rating
+        # GENDER + CATEGORY + PRICE
+
+        "men shoes under 2000",
+        "men shoes under 3000",
+        "men shoes under 10000",
+
+        "women shoes under 2000",
+        "women shoes under 3000",
+
+        "girls kurtas under 2000",
+        "girls kurta under 2000",
+
+        "boys shirts under 2000",
+
+        "men shirts under 3000",
+        "women dresses under 5000",
+
+        # COLOR
+
+        "black shoes",
+        "white shoes",
+        "red shoes",
+        "blue shoes",
+
+        "black shirts",
+        "white shirts",
+        "blue shirts",
+
+        "white kurtas",
+        "black kurtas",
+
+        "red dress",
+        "blue dress",
+        "black dress",
+
+        "black bags",
+        "white bags",
+
+        # COLOR + GENDER + CATEGORY
+
+        "white girls kurta",
+        "white girls kurtas",
+
+        "white women's shirts",
+        "white women's shoes",
+
+        "blue men's shirts",
+        "blue men's shoes",
+
+        "black men's shoes",
+        "black men's shirts",
+
+        "red women's dresses",
+
+        # MATERIAL
+
+        "cotton shirts",
+        "cotton kurtas",
+        "cotton dresses",
+        "cotton pants",
+
+        "leather shoes",
+        "leather bags",
+
+        "denim jeans",
+        "denim shirts",
+
+        "silk dresses",
+
+        # MULTIPLE FILTERS
+
+        "white cotton girls kurta",
+        "white cotton girls kurtas",
+
+        "white cotton shirts",
+        "blue cotton shirts",
+
+        "blue cotton men's shirts",
+
+        "black leather shoes",
+
+        "casual blue shirts",
+        "formal men's shirts",
+
+        "cotton kurtas under 2000",
+
+        "white cotton girls kurta under 2000",
+
+        "men's puma shoes under 10000",
+
+        "white levi's shirts under 3000",
+
+        "casual men's shirts under 3000",
+
+        # STYLE / TYPE
+
+        "casual shirts",
+        "formal shirts",
+        "casual shoes",
+        "formal shoes",
+
+        "button down shirts",
+        "button-down shirts",
+
+        "long sleeve shirts",
+        "short sleeve shirts",
+
+        "running shoes",
+        "sports shoes",
+
+        "party dresses",
+        "formal dresses",
+
+        # RATING
+
         "top rated products",
         "best rated products",
         "products above 4 stars",
+        "products above 4 rating",
         "highest rated products",
         "products with good reviews",
 
-        # Popular
+        "best rated shoes",
+        "best rated shirts",
+        "highest rated phones",
+
+        # POPULARITY
+
         "trending products",
         "popular products",
         "best selling products",
@@ -157,57 +383,99 @@ sql = Route(
         "latest products",
         "new arrivals",
 
-        # Recommendation
+        # RECOMMENDATION
+
         "recommend products",
         "recommend shoes",
         "recommend a phone",
         "recommend a laptop",
         "recommend headphones",
+
         "suggest products",
         "suggest a smartwatch",
+
         "what should i buy",
         "best product for students",
         "best office laptop",
         "best gaming laptop",
+
         "best phone under 20000",
         "best shoes for running",
 
-        # Filters
-        "black shoes",
-        "white shoes",
-        "red dress",
-        "size 8 shoes",
-        "large tshirt",
-        "medium shirt",
+        # FILTERS
 
-        # Sorting
+        "size 8 shoes",
+        "size 9 shoes",
+        "large tshirt",
+        "large t shirt",
+        "medium shirt",
+        "small dress",
+
+        "long sleeve shirts",
+        "short sleeve shirts",
+
+        "casual shirts",
+        "formal shirts",
+
+        "button down shirts",
+        "button-down shirts",
+
+        # SORTING
+
         "sort by price",
         "sort by rating",
         "lowest price first",
         "highest price first",
         "newest first",
 
-        # Comparison
+        "cheapest products",
+        "cheapest shoes",
+        "cheapest phone",
+
+        "most expensive products",
+
+        # COMPARISON
+
         "compare products",
         "compare iphone and samsung",
         "which phone is better",
         "difference between products",
+        "compare two phones",
+        "compare shoes",
 
-        # Availability
+        # AVAILABILITY
+
         "in stock products",
         "out of stock products",
+        "available shoes",
+        "available shirts",
+        "available phones",
 
-        # Natural Queries
+        # NATURAL PRODUCT QUERIES
+
         "i need a laptop",
         "i need headphones",
         "i need running shoes",
+        "i need men's shoes",
+        "i need women's shoes",
+
+        "i need a shirt",
+        "i need a kurta",
+        "i need a dress",
+
         "help me find a product",
-        "show me something good",
         "find me a gift",
+
         "i am looking for a smartwatch",
         "i want a new phone",
+
         "show me laptops under 50000",
-        "find nike shoes under 3000"
+        "find nike shoes under 3000",
+
+        "find white cotton girls kurta",
+        "find men's puma shoes under 10000",
+        "find blue cotton shirts",
+        "find casual men's shirts",
     ]
 )
 
@@ -306,7 +574,7 @@ def test_router(query):
     return router_ans.name
 
 def get_router(state):
-    query = state["messages"][-1].content
+    query = state["rewritten_query"]
     router_ans = router(query)
 
     route_name = router_ans.name if router_ans.name is not None else "fallback"
@@ -316,4 +584,4 @@ def get_router(state):
     }
         
 if __name__ == "__main__":
-    print(test_router("hi im manoj"))
+    print(test_router("Find female watches under 2000"))

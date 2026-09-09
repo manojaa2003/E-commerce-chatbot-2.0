@@ -80,7 +80,7 @@ def generate_answer(query,context):
 
 def general_qa_chain(state):
     general_data_ingest(general_qa_path)
-    query = state["messages"][-1].content
+    query = state["rewritten_query"]
     queried_answers = query_relevant_answ(query)
     context = " ".join(answ.get('answer') for answ in queried_answers['metadatas'][0])
     answer = generate_answer(

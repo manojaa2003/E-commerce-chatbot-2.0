@@ -75,7 +75,7 @@ def generate_answer(query,context):
 
 def faq_chain(state):
     ingest_faq_data(faq_path)
-    query = state["messages"][-1].content
+    query = state["rewritten_query"]
     result = get_relevant_qa(query)
     context = " ".join(r.get('answer') for r in result['metadatas'][0])
     answer = generate_answer(query,context)

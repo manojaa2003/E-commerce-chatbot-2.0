@@ -9,8 +9,8 @@ groq_client = Groq()
 
 def fallback_chain(state):
 
-    query = state["messages"][-1].content
-
+    query = state["rewritten_query"]
+    
     system_prompt = f"""
     You are the fallback assistant for an AI-powered e-commerce platform.
 
