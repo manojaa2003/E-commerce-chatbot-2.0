@@ -1,4 +1,4 @@
-from Orchestration.Orchestration import app as chatbot
+from ecommerce_chatbot.Orchestration.Orchestration import app as chatbot
 from ..schema import ChatRequest, ChatResponse, MessageResponse
 from langchain_core.messages import HumanMessage, AIMessage
 from fastapi import APIRouter, Depends,HTTPException,status

@@ -11,12 +11,11 @@ from langchain_core.messages import (
 
 from dotenv import load_dotenv
 
-from app.router import get_router
-from app.general_qa import general_qa_chain
-from app.faq import faq_chain
-from app.sql import sql_chain
-from app.fall_back import fallback_chain
-
+from ecommerce_chatbot.app.router import get_router
+from ecommerce_chatbot.app.general_qa import general_qa_chain
+from ecommerce_chatbot.app.faq import faq_chain
+from ecommerce_chatbot.app.sql import sql_chain
+from ecommerce_chatbot.app.fall_back import fallback_chain
 
 load_dotenv()
 

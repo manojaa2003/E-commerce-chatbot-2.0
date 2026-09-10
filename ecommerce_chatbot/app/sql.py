@@ -6,7 +6,7 @@ import psycopg2
 from dotenv import load_dotenv
 from groq import Groq
 from langchain_core.messages import AIMessage, HumanMessage
-from backend_routes.config import settings
+from ecommerce_chatbot.backend_routes.config import settings
 
 load_dotenv()
 
