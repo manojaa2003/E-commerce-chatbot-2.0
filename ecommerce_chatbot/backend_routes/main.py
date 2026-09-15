@@ -20,6 +20,7 @@ fast_app.add_middleware(
         "http://localhost:5173",
         "http://localhost:3000",
         "https://e-commerce-chatbot-2-0.vercel.app",
+        "https://www.aishopmate.online",
     ],
     allow_credentials=True,
     allow_methods=["*"],
