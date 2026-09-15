@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "./Chat.css";
 
-
 /* ============================================================
    PRODUCT PARSER
    ============================================================ */
@@ -164,8 +163,10 @@ function Chat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [confirmationModal, setConfirmationModal] =
-    useState(null);
+  const [confirmationModal, setConfirmationModal] = useState(null);
+  
+  // Added responsive state for mobile sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -203,6 +204,7 @@ function Chat() {
     setInput("");
     setShowSettings(false);
     setConfirmationModal(null);
+    setIsSidebarOpen(false); // Close sidebar on mobile
 
     setTimeout(() => {
       textareaRef.current?.focus();
@@ -441,7 +443,23 @@ function Chat() {
 
   return (
     <div className="app">
-      <aside className="sidebar">
+      {/* Overlay background when mobile menu is open */}
+      {isSidebarOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
+      <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+        <button 
+          className="mobile-close-btn" 
+          onClick={() => setIsSidebarOpen(false)}
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
         <div className="sidebar-brand">
           <div className="brand-mark">S</div>
 
@@ -467,9 +485,10 @@ function Chat() {
 
           <button
             className="chat-history-btn"
-            onClick={() =>
-              navigate("/chat-history")
-            }
+            onClick={() => {
+              setIsSidebarOpen(false); // Close sidebar on mobile
+              navigate("/chat-history");
+            }}
           >
             <span className="button-icon">▤</span>
             <span>Chat history</span>
@@ -527,19 +546,28 @@ function Chat() {
 
       <main className="chat-container">
         <header className="chat-header">
-          <div className="header-title">
-            <div className="bot-logo">
-              <span>✦</span>
-            </div>
+          <div className="header-left">
+            <button 
+              className="mobile-menu-btn"
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open menu"
+            >
+              ☰
+            </button>
+            <div className="header-title">
+              <div className="bot-logo">
+                <span>✦</span>
+              </div>
 
-            <div>
-              <h1>ShopAssist</h1>
+              <div>
+                <h1>ShopAssist</h1>
 
-              <div className="assistant-meta">
-                <span className="online-dot"></span>
-                <span>Online</span>
-                <span className="meta-divider">•</span>
-                <span>Product recommendations</span>
+                <div className="assistant-meta">
+                  <span className="online-dot"></span>
+                  <span>Online</span>
+                  <span className="meta-divider">•</span>
+                  <span>Product recommendations</span>
+                </div>
               </div>
             </div>
           </div>
