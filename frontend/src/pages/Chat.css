@@ -65,6 +65,7 @@ textarea {
 
 button {
   border: 0;
+  background: transparent;
 }
 
 button:focus-visible,
@@ -135,35 +136,44 @@ textarea:focus-visible {
 
 .mobile-menu-btn {
   display: none;
-  background: transparent;
+  align-items: center;
+  justify-content: center;
   color: var(--text-secondary);
-  font-size: 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px;
   cursor: pointer;
-  margin-right: 15px;
-  padding: 5px;
-  line-height: 1;
+  transition: all 0.2s ease;
 }
 
 .mobile-menu-btn:hover {
+  background: var(--surface-hover);
   color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
 .mobile-close-btn {
   display: none;
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 18px;
+  top: 16px;
+  right: 16px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
   cursor: pointer;
   z-index: 10;
-  padding: 5px;
-  line-height: 1;
+  transition: all 0.2s ease;
 }
 
 .mobile-close-btn:hover {
+  background: var(--surface-hover);
   color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
 .sidebar-brand {
@@ -394,6 +404,7 @@ textarea:focus-visible {
 .header-left {
   display: flex;
   align-items: center;
+  gap: 14px;
 }
 
 .header-title {
@@ -423,18 +434,24 @@ textarea:focus-visible {
     0 8px 24px rgba(99, 102, 241, 0.22);
 }
 
-.header-title h1 {
+.header-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text-group h1 {
   color: var(--text-primary);
   font-size: 16px;
   font-weight: 750;
   letter-spacing: -0.2px;
+  line-height: 1.2;
 }
 
 .assistant-meta {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 5px;
+  margin-top: 4px;
   color: var(--text-muted);
   font-size: 11px;
 }
@@ -445,6 +462,12 @@ textarea:focus-visible {
   border-radius: 50%;
   background: var(--green);
   box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
+}
+
+.meta-desktop-only {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .meta-divider {
@@ -1229,7 +1252,6 @@ textarea:focus-visible {
     display: block;
   }
 
-  /* Changed: Replaced display: none with position fixed for sliding animation */
   .sidebar {
     position: fixed;
     top: 0;
@@ -1243,18 +1265,43 @@ textarea:focus-visible {
     transform: translateX(0);
   }
 
-  .mobile-menu-btn,
+  /* Display SVG Buttons cleanly on mobile */
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
   .mobile-close-btn {
-    display: block;
+    display: flex;
+  }
+
+  /* Hide the trailing meta text so the header stays neat and doesn't wrap */
+  .meta-desktop-only {
+    display: none;
   }
 
   .chat-container {
     width: 100%;
   }
 
+  /* Compact and aligned mobile header */
   .chat-header {
-    min-height: 70px;
-    padding: 13px 16px;
+    min-height: 64px;
+    padding: 10px 16px;
+  }
+
+  .header-title {
+    gap: 10px; /* Tighter gap between logo and text */
+  }
+
+  .header-text-group h1 {
+    font-size: 15px; /* Slightly smaller for mobile */
+  }
+
+  .bot-logo {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    border-radius: 10px;
   }
 
   .messages-container {
