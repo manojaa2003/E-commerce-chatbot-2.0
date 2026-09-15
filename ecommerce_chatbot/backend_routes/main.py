@@ -17,8 +17,9 @@ fast_app = FastAPI()
 fast_app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",   # Vite dev server
-        "http://localhost:3000",   # CRA dev server, if you use it instead
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://e-commerce-chatbot-2-0.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
