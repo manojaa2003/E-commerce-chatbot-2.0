@@ -411,6 +411,7 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
+  white-space: nowrap;
 }
 
 .bot-logo {
@@ -434,26 +435,22 @@ textarea:focus-visible {
     0 8px 24px rgba(99, 102, 241, 0.22);
 }
 
-.header-text-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-text-group h1 {
+.header-title h1 {
   color: var(--text-primary);
   font-size: 16px;
   font-weight: 750;
   letter-spacing: -0.2px;
-  line-height: 1.2;
+  line-height: 1;
+  margin: 0;
 }
 
 .assistant-meta {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 12px;
+  margin-top: 0;
 }
 
 .online-dot {
@@ -1265,7 +1262,6 @@ textarea:focus-visible {
     transform: translateX(0);
   }
 
-  /* Display SVG Buttons cleanly on mobile */
   .mobile-menu-btn {
     display: flex;
   }
@@ -1274,7 +1270,6 @@ textarea:focus-visible {
     display: flex;
   }
 
-  /* Hide the trailing meta text so the header stays neat and doesn't wrap */
   .meta-desktop-only {
     display: none;
   }
@@ -1283,18 +1278,21 @@ textarea:focus-visible {
     width: 100%;
   }
 
-  /* Compact and aligned mobile header */
   .chat-header {
     min-height: 64px;
     padding: 10px 16px;
   }
 
   .header-title {
-    gap: 10px; /* Tighter gap between logo and text */
+    gap: 8px;
   }
 
-  .header-text-group h1 {
-    font-size: 15px; /* Slightly smaller for mobile */
+  .header-title h1 {
+    font-size: 15px; 
+  }
+
+  .assistant-meta {
+    font-size: 11px;
   }
 
   .bot-logo {

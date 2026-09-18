@@ -564,17 +564,15 @@ function Chat() {
                 <span>✦</span>
               </div>
 
-              <div className="header-text-group">
-                <h1>ShopAssist</h1>
+              <h1>ShopAssist</h1>
 
-                <div className="assistant-meta">
-                  <span className="online-dot"></span>
-                  <span>Online</span>
-                  <span className="meta-desktop-only">
-                    <span className="meta-divider">•</span>
-                    <span>Product recommendations</span>
-                  </span>
-                </div>
+              <div className="assistant-meta">
+                <span className="online-dot"></span>
+                <span>Online</span>
+                <span className="meta-desktop-only">
+                  <span className="meta-divider">•</span>
+                  <span>Product recommendations</span>
+                </span>
               </div>
             </div>
           </div>
@@ -756,7 +754,7 @@ function Chat() {
                 setInput(event.target.value)
               }
               onKeyDown={handleKeyDown}
-              placeholder="Ask about products, prices, features, or comparisons..."
+              placeholder="Ask about products, prices or ratings.."
               rows="1"
               disabled={loading}
               aria-label="Message ShopAssist"
