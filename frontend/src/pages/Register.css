@@ -60,7 +60,8 @@ body {
   min-height: 100dvh;
   place-items: center;
   padding: 24px 16px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   color: var(--register-text);
   font-family:
     Inter,
@@ -87,6 +88,23 @@ body {
       transparent 24%
     ),
     var(--register-bg);
+}
+
+.register-page::-webkit-scrollbar {
+  width: 8px;
+}
+
+.register-page::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.register-page::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.register-page::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.36);
 }
 
 .register-page::before,
@@ -123,10 +141,10 @@ body {
 .register-card {
   position: relative;
   z-index: 1;
-  width: min(100%, 440px);
-  padding: 38px;
+  width: min(100%, 380px);
+  padding: 32px 28px;
   border: 1px solid var(--register-border);
-  border-radius: 22px;
+  border-radius: 20px;
   background:
     linear-gradient(
       145deg,
@@ -168,43 +186,43 @@ body {
    ============================================================ */
 
 .register-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
 .register-logo {
   display: grid;
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 17px;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
   place-items: center;
   border: 1px solid rgba(165, 180, 252, 0.42);
-  border-radius: 17px;
+  border-radius: 14px;
   background: linear-gradient(
     135deg,
     var(--register-indigo),
     var(--register-purple)
   );
   color: #ffffff;
-  font-size: 25px;
+  font-size: 22px;
   box-shadow:
-    0 0 0 8px rgba(99, 102, 241, 0.06),
-    0 12px 30px rgba(99, 102, 241, 0.38);
+    0 0 0 6px rgba(99, 102, 241, 0.06),
+    0 10px 24px rgba(99, 102, 241, 0.38);
 }
 
 .register-header h1 {
   margin: 0;
   color: var(--register-text);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.6px;
   line-height: 1.2;
 }
 
 .register-header p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   color: var(--register-muted);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.55;
 }
 
@@ -216,7 +234,7 @@ body {
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .register-form-group {
@@ -238,7 +256,7 @@ body {
 
 .register-form-group > input[type="email"] {
   width: 100%;
-  height: 46px;
+  height: 42px;
   padding: 0 13px;
   border: 1px solid var(--register-border);
   border-radius: 11px;
@@ -271,14 +289,13 @@ body {
 
 /* ============================================================
    PASSWORD FIELD
-   One border on wrapper only
    ============================================================ */
 
 .register-password-wrapper {
   position: relative;
   display: flex;
   width: 100%;
-  height: 46px;
+  height: 42px;
   align-items: center;
   padding: 0;
   border: 1px solid var(--register-border);
@@ -310,7 +327,7 @@ body {
   width: 100%;
   height: 100%;
   min-width: 0;
-  padding: 0 70px 0 13px;
+  padding: 0 64px 0 13px;
   border: none !important;
   border-radius: 0;
   outline: none !important;
@@ -339,21 +356,21 @@ body {
 .register-toggle-password {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: 6px;
   z-index: 2;
   display: inline-flex;
-  min-width: 48px;
-  height: 30px;
+  min-width: 44px;
+  height: 28px;
   align-items: center;
   justify-content: center;
-  padding: 6px 8px;
+  padding: 4px 8px;
   border: none !important;
   border-radius: 7px;
   outline: none;
   background: transparent !important;
   color: var(--register-indigo-light);
   font-family: inherit;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transform: translateY(-50%);
@@ -394,9 +411,9 @@ body {
 
 .register-message,
 .register-error {
-  margin: -2px 0 0;
+  margin: 0;
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 9px;
   font-size: 13px;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -421,7 +438,7 @@ body {
 
 .register-button {
   display: inline-flex;
-  min-height: 47px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
   gap: 9px;
@@ -485,7 +502,7 @@ body {
    ============================================================ */
 
 .register-footer {
-  margin: 24px 0 0;
+  margin: 22px 0 0;
   color: var(--register-muted);
   font-size: 13px;
   line-height: 1.5;
@@ -527,9 +544,9 @@ body {
   }
 
   .register-card {
-    width: min(100%, 450px);
-    padding: 32px 25px;
-    border-radius: 19px;
+    width: min(100%, 360px);
+    padding: 28px 24px;
+    border-radius: 18px;
   }
 
   .register-header {
@@ -537,7 +554,7 @@ body {
   }
 
   .register-header h1 {
-    font-size: 24px;
+    font-size: 22px;
   }
 }
 
@@ -554,42 +571,42 @@ body {
 
   .register-card {
     margin-top: 10px;
-    padding: 28px 19px;
-    border-radius: 17px;
+    padding: 24px 18px;
+    border-radius: 16px;
   }
 
   .register-logo {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 14px;
-    border-radius: 15px;
-    font-size: 22px;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-size: 20px;
   }
 
   .register-header h1 {
-    font-size: 23px;
+    font-size: 21px;
   }
 
   .register-header p {
-    font-size: 13px;
+    font-size: 12.5px;
   }
 
   .register-form {
-    gap: 16px;
+    gap: 14px;
   }
 
-  .register-form-group > input[type="email"] {
-    height: 45px;
-    font-size: 13px;
-  }
-
+  .register-form-group > input[type="email"],
   .register-password-wrapper {
-    height: 45px;
+    height: 40px;
   }
 
   .register-password-input {
     height: 100%;
     font-size: 13px;
+  }
+  
+  .register-button {
+    min-height: 40px;
   }
 
   .register-footer {

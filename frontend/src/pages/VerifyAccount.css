@@ -60,7 +60,8 @@ body {
   flex-direction: column;
   justify-content: center;
   padding: 32px 16px;
-  overflow: hidden;
+  overflow-y: auto; /* Allow scrolling */
+  overflow-x: hidden;
   color: var(--verify-text);
   font-family:
     Inter,
@@ -89,6 +90,23 @@ body {
     var(--verify-bg);
 }
 
+/* Custom Scrollbar */
+.auth-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.auth-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auth-container::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.auth-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.36);
+}
 
 /* Background lighting */
 
@@ -98,7 +116,7 @@ body {
   z-index: 0;
   border-radius: 50%;
   content: "";
-  filter: blur(3px);
+  filter: blur(4px);
   pointer-events: none;
 }
 
@@ -123,6 +141,7 @@ body {
    CARD ELEMENTS
    ============================================================ */
 
+/* CHANGED: Compact width of 380px to match Login/Register */
 .auth-container > h1,
 .auth-container > p,
 .auth-container > strong,
@@ -130,7 +149,7 @@ body {
 .auth-container > button {
   position: relative;
   z-index: 1;
-  width: min(100%, 430px);
+  width: min(100%, 380px);
 }
 
 
@@ -140,10 +159,10 @@ body {
 
 .auth-container > h1 {
   margin: 0;
-  padding: 32px 34px 10px;
+  padding: 32px 28px 10px; /* Scaled down padding */
   border: 1px solid var(--verify-border);
   border-bottom: 0;
-  border-radius: 22px 22px 0 0;
+  border-radius: 20px 20px 0 0;
   background:
     linear-gradient(
       145deg,
@@ -152,9 +171,9 @@ body {
     ),
     var(--verify-panel);
   color: var(--verify-text);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.6px;
   text-align: center;
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.42),
@@ -166,12 +185,12 @@ body {
 
 .auth-container > h1::before {
   display: grid;
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 16px;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
   place-items: center;
   border: 1px solid rgba(165, 180, 252, 0.42);
-  border-radius: 17px;
+  border-radius: 14px;
   background: linear-gradient(
     135deg,
     var(--verify-indigo),
@@ -179,10 +198,10 @@ body {
   );
   color: #ffffff;
   box-shadow:
-    0 0 0 8px rgba(99, 102, 241, 0.06),
-    0 12px 30px rgba(99, 102, 241, 0.38);
+    0 0 0 6px rgba(99, 102, 241, 0.06),
+    0 10px 24px rgba(99, 102, 241, 0.38);
   content: "✓";
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 800;
 }
 
@@ -193,7 +212,7 @@ body {
 
 .auth-container > p:nth-of-type(1) {
   margin: 0;
-  padding: 12px 34px 0;
+  padding: 12px 28px 0;
   border-right: 1px solid var(--verify-border);
   border-left: 1px solid var(--verify-border);
   background:
@@ -204,7 +223,7 @@ body {
     ),
     var(--verify-panel);
   color: var(--verify-muted);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   text-align: center;
 }
@@ -212,7 +231,7 @@ body {
 .auth-container > strong {
   display: block;
   margin: 0;
-  padding: 5px 34px 20px;
+  padding: 5px 28px 20px;
   border-right: 1px solid var(--verify-border);
   border-left: 1px solid var(--verify-border);
   background:
@@ -237,8 +256,8 @@ body {
 .auth-container > form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 0 34px 22px;
+  gap: 16px;
+  padding: 0 28px 22px;
   border-right: 1px solid var(--verify-border);
   border-left: 1px solid var(--verify-border);
   background:
@@ -267,15 +286,15 @@ body {
 
 .auth-container input {
   width: 100%;
-  height: 52px;
+  height: 46px; /* Slightly shorter, still large enough for OTP */
   padding: 0 14px;
   border: 1px solid var(--verify-border);
-  border-radius: 11px;
+  border-radius: 10px;
   outline: none;
   background: var(--verify-surface);
   color: var(--verify-text);
   font-family: inherit;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 8px;
   text-align: center;
@@ -305,14 +324,22 @@ body {
 
 
 /* ============================================================
-   VERIFY BUTTON
+   BUTTONS
    ============================================================ */
 
+.auth-container form button,
+.auth-container > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
 .auth-container form button {
-  min-height: 47px;
+  min-height: 42px; /* Matched to new compact height */
   margin-top: 4px;
   border: 1px solid transparent;
-  border-radius: 11px;
+  border-radius: 10px;
   background: linear-gradient(
     135deg,
     var(--verify-indigo),
@@ -322,7 +349,7 @@ body {
   font-size: 14px;
   font-weight: 750;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.32);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.32);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -331,7 +358,7 @@ body {
 
 .auth-container form button:hover:not(:disabled) {
   filter: brightness(1.08);
-  box-shadow: 0 13px 30px rgba(99, 102, 241, 0.48);
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.48);
   transform: translateY(-2px);
 }
 
@@ -345,13 +372,11 @@ body {
 }
 
 
-/* ============================================================
-   RESEND BUTTON
-   ============================================================ */
+/* Resend Button */
 
 .auth-container > button {
-  min-height: 45px;
-  padding: 0 34px;
+  min-height: 42px;
+  padding: 0 28px;
   border: 1px solid var(--verify-border);
   border-top: 0;
   background:
@@ -385,6 +410,25 @@ body {
   opacity: 0.6;
 }
 
+/* Spinner Animation */
+.verify-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: verify-spinner-rotate 800ms linear infinite;
+}
+
+.auth-container > button .verify-spinner {
+  border-top-color: var(--verify-indigo-light);
+}
+
+@keyframes verify-spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
 
 /* ============================================================
    SUCCESS AND ERROR MESSAGES
@@ -393,7 +437,7 @@ body {
 .auth-container > .success,
 .auth-container > .error {
   margin: 0;
-  padding: 11px 34px;
+  padding: 11px 28px;
   border-right: 1px solid var(--verify-border);
   border-left: 1px solid var(--verify-border);
   font-size: 13px;
@@ -433,10 +477,10 @@ body {
 
 .auth-container > p:last-child {
   margin: 0;
-  padding: 18px 34px 30px;
+  padding: 18px 28px 28px;
   border: 1px solid var(--verify-border);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 0 0 22px 22px;
+  border-radius: 0 0 20px 20px;
   background:
     linear-gradient(
       145deg,
@@ -479,14 +523,28 @@ body {
 
 
 /* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .auth-container > h1,
+  .auth-container > p,
+  .auth-container > strong,
+  .auth-container > form,
+  .auth-container > button {
+    width: min(100%, 360px);
+  }
+}
+
+/* ============================================================
    RESPONSIVE — MOBILE
    ============================================================ */
 
-@media (max-width: 500px) {
+@media (max-width: 420px) {
   .auth-container {
     align-items: stretch;
-    justify-content: center;
-    padding: 22px 14px;
+    justify-content: flex-start;
+    padding: 24px 12px;
   }
 
   .auth-container > h1,
@@ -498,52 +556,58 @@ body {
   }
 
   .auth-container > h1 {
-    padding: 27px 22px 10px;
-    border-radius: 18px 18px 0 0;
-    font-size: 24px;
-  }
-
-  .auth-container > h1::before {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 14px;
-    border-radius: 15px;
+    margin-top: 10px;
+    padding: 24px 20px 10px;
+    border-radius: 16px 16px 0 0;
     font-size: 22px;
   }
 
+  .auth-container > h1::before {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
   .auth-container > p:nth-of-type(1) {
-    padding: 11px 22px 0;
+    padding: 11px 20px 0;
     font-size: 13px;
   }
 
   .auth-container > strong {
-    padding: 5px 22px 18px;
+    padding: 5px 20px 18px;
     font-size: 13px;
   }
 
   .auth-container > form {
-    gap: 16px;
-    padding: 0 22px 18px;
+    gap: 14px;
+    padding: 0 20px 18px;
   }
 
   .auth-container input {
-    height: 48px;
-    font-size: 18px;
+    height: 44px;
+    font-size: 16px;
   }
 
   .auth-container > button {
-    padding: 0 22px;
+    padding: 0 20px;
+  }
+
+  .auth-container form button,
+  .auth-container > button {
+    min-height: 40px;
   }
 
   .auth-container > .success,
   .auth-container > .error {
-    padding: 10px 22px;
+    padding: 10px 20px;
     font-size: 12.5px;
   }
 
   .auth-container > p:last-child {
-    padding: 17px 22px 25px;
-    border-radius: 0 0 18px 18px;
+    padding: 17px 20px 25px;
+    border-radius: 0 0 16px 16px;
   }
 }
 
@@ -552,7 +616,7 @@ body {
    SHORT HEIGHT DEVICES
    ============================================================ */
 
-@media (max-height: 680px) and (min-width: 501px) {
+@media (max-height: 680px) and (min-width: 421px) {
   .auth-container {
     align-items: flex-start;
     padding-top: 24px;

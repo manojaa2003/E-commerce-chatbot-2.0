@@ -180,7 +180,7 @@ function VerifyAccount() {
 
 
     return (
-        <div className="auth-container">
+        <main className="auth-container">
 
             <h1>Verify Your Account</h1>
 
@@ -230,9 +230,14 @@ function VerifyAccount() {
                         otp.length !== 6
                     }
                 >
-                    {loading
-                        ? "Verifying..."
-                        : "Verify Account"}
+                    {loading ? (
+                        <>
+                            <span className="verify-spinner" aria-hidden="true" />
+                            Verifying...
+                        </>
+                    ) : (
+                        "Verify Account"
+                    )}
                 </button>
 
             </form>
@@ -247,9 +252,14 @@ function VerifyAccount() {
                 onClick={handleResendOtp}
                 disabled={resending}
             >
-                {resending
-                    ? "Sending..."
-                    : "Resend OTP"}
+                {resending ? (
+                    <>
+                        <span className="verify-spinner" aria-hidden="true" />
+                        Sending...
+                    </>
+                ) : (
+                    "Resend OTP"
+                )}
             </button>
 
 
@@ -286,7 +296,7 @@ function VerifyAccount() {
                 </Link>
             </p>
 
-        </div>
+        </main>
     );
 }
 

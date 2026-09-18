@@ -184,9 +184,14 @@ function ForgotPassword() {
                                 className="forgot-action-button"
                                 disabled={loading}
                             >
-                                {loading
-                                    ? "Sending OTP..."
-                                    : "Send OTP"}
+                                {loading ? (
+                                    <>
+                                        <span className="forgot-spinner" aria-hidden="true" />
+                                        Sending OTP...
+                                    </>
+                                ) : (
+                                    "Send OTP"
+                                )}
                             </button>
                         </form>
 
@@ -302,9 +307,14 @@ function ForgotPassword() {
                                 className="forgot-action-button"
                                 disabled={loading}
                             >
-                                {loading
-                                    ? "Updating..."
-                                    : "Update Password"}
+                                {loading ? (
+                                    <>
+                                        <span className="forgot-spinner" aria-hidden="true" />
+                                        Updating...
+                                    </>
+                                ) : (
+                                    "Update Password"
+                                )}
                             </button>
                         </form>
 
