@@ -1,12 +1,7 @@
-"""Shared pytest fixtures for API endpoint tests."""
-
 import os
 import sys
 import types
 
-# ---------------------------------------------------------------------------
-# Test environment
-# ---------------------------------------------------------------------------
 os.environ["DATABASE_HOSTNAME"] = "localhost"
 os.environ["DATABASE_PORT"] = "5433"
 os.environ["DATABASE_PASSWORD"] = "manu@123"
@@ -24,11 +19,6 @@ os.environ.setdefault(
     "30"
 )
 
-
-# ---------------------------------------------------------------------------
-# Replace the real LangGraph/LLM orchestration before chat.py imports it.
-# This keeps chat API tests deterministic and offline.
-# ---------------------------------------------------------------------------
 class _DummyChatbot:
 
     def invoke(self, state):
@@ -51,10 +41,6 @@ _fake_orchestration.app = _DummyChatbot()
 
 sys.modules[_fake_orchestration.__name__] = _fake_orchestration
 
-
-# ---------------------------------------------------------------------------
-# Import application after environment and chatbot mocking are configured.
-# ---------------------------------------------------------------------------
 from ecommerce_chatbot.backend_routes.main import fast_app
 from ecommerce_chatbot.backend_routes import database, models
 from ecommerce_chatbot.backend_routes.Oauth2 import create_access_token
@@ -63,10 +49,6 @@ from fastapi.testclient import TestClient
 
 import pytest
 
-
-# ---------------------------------------------------------------------------
-# Override FastAPI database dependency
-# ---------------------------------------------------------------------------
 def _override_get_db():
 
     db = database.Sesssionlocal()
@@ -80,10 +62,6 @@ def _override_get_db():
 
 fast_app.dependency_overrides[database.get_db] = _override_get_db
 
-
-# ---------------------------------------------------------------------------
-# Create test database schema
-# ---------------------------------------------------------------------------
 @pytest.fixture(scope="session", autouse=True)
 def create_test_schema():
 
@@ -97,18 +75,12 @@ def create_test_schema():
         bind=database.engine
     )
 
-
-# ---------------------------------------------------------------------------
-# Clean database before every test
-# ---------------------------------------------------------------------------
 @pytest.fixture(autouse=True)
 def clean_database():
 
     db = database.Sesssionlocal()
 
     try:
-
-        # Delete child tables first because of foreign keys.
 
         db.query(models.Message).delete(
             synchronize_session=False
@@ -132,20 +104,12 @@ def clean_database():
 
         db.close()
 
-
-# ---------------------------------------------------------------------------
-# FastAPI TestClient
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def client():
 
     with TestClient(fast_app) as test_client:
         yield test_client
 
-
-# ---------------------------------------------------------------------------
-# Database session
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def db():
 
@@ -157,10 +121,6 @@ def db():
     finally:
         session.close()
 
-
-# ---------------------------------------------------------------------------
-# Normal user
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def user(db):
 
@@ -177,10 +137,6 @@ def user(db):
 
     return item
 
-
-# ---------------------------------------------------------------------------
-# Authentication headers
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def auth_headers(user):
 
@@ -192,10 +148,6 @@ def auth_headers(user):
         "Authorization": f"Bearer {token}"
     }
 
-
-# ---------------------------------------------------------------------------
-# Pending registration user
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def pending_user(db):
 
@@ -220,10 +172,6 @@ def pending_user(db):
 
     return item, otp
 
-
-# ---------------------------------------------------------------------------
-# Password reset OTP
-# ---------------------------------------------------------------------------
 @pytest.fixture
 def password_reset_otp(db, user):
 

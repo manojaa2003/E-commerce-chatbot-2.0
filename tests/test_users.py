@@ -9,8 +9,6 @@ def test_create_user_replaces_existing_pending_registration(
     monkeypatch,
 ):
     old_pending, old_otp = pending_user
-
-    # Capture values before the API replaces/deletes the ORM object.
     pending_email = old_pending.email_id
     old_pending_id = old_pending.id
 
@@ -35,7 +33,6 @@ def test_create_user_replaces_existing_pending_registration(
 
     assert response.status_code == 200
 
-    # API uses a separate SQLAlchemy session.
     db.expire_all()
 
     pending_rows = (
@@ -48,7 +45,6 @@ def test_create_user_replaces_existing_pending_registration(
 
     updated_pending = pending_rows[0]
 
-    # A new pending registration should have been created/replaced.
     assert updated_pending.id != old_pending_id
 
     assert utils.verify(
